@@ -5,7 +5,9 @@ import org.kohsuke.args4j.CmdLineException;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -38,12 +40,13 @@ public class App {
         LinkedList<ExtractFeaturesTask> tasks = new LinkedList<>();
         try {
             Files.walk(Paths.get(s_CommandLineValues.Dir)).filter(Files::isRegularFile)
-                    .filter(p -> p.toString().toLowerCase().endsWith(".java")).forEach(f -> {
+                    .filter(p -> p.toString().toLowerCase().endsWith(".java")).sorted().forEach(f -> {
                 ExtractFeaturesTask task = new ExtractFeaturesTask(s_CommandLineValues, f);
                 tasks.add(task);
             });
         } catch (IOException e) {
             e.printStackTrace();
+
             return;
         }
         List<Future<Void>> tasksResults = null;
@@ -58,7 +61,7 @@ public class App {
             try {
                 f.get();
             } catch (InterruptedException | ExecutionException e) {
-                e.printStackTrace();
+                System.out.println("aaaS");
             }
         });
     }

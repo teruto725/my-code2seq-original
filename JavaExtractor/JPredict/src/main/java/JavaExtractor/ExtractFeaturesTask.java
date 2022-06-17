@@ -67,6 +67,7 @@ class ExtractFeaturesTask implements Callable<Void> {
 
     public String featuresToString(ArrayList<ProgramFeatures> features) {
         if (features == null || features.isEmpty()) {
+            System.out.println("");
             return Common.EmptyString;
         }
 
