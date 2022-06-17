@@ -27,7 +27,6 @@ def ExtractFeaturesForDir(args, dir, prefix):
                '--max_path_length', str(args.max_path_length), '--max_path_width', str(args.max_path_width),
                '--dir', dir, '--num_threads', str(args.num_threads)]
 
-    # print command
     # os.system(command)
     kill = lambda process: process.kill()
     outputFileName = TMP_DIR + prefix + dir.split('/')[-1]
@@ -63,15 +62,16 @@ def ExtractFeaturesForDirsList(args, dirs):
         shutil.rmtree(TMP_DIR, ignore_errors=True)
     os.makedirs(TMP_DIR)
     try:
-        p = multiprocessing.Pool(6)
-        p.starmap(ParallelExtractDir, zip(itertools.repeat(args), dirs))
-        # for dir in dirs:
-        #    ExtractFeaturesForDir(args, dir, '')
+        #p = multiprocessing.Pool(6)
+        #p.starmap(ParallelExtractDir, zip(itertools.repeat(args), dirs))
+        for dir in dirs:
+            ExtractFeaturesForDir(args, dir, '')
         output_files = os.listdir(TMP_DIR)
         for f in output_files:
             os.system("cat %s/%s" % (TMP_DIR, f))
     finally:
-        shutil.rmtree(TMP_DIR, ignore_errors=True)
+        pass
+        #shutil.rmtree(TMP_DIR, ignore_errors=True)
 
 
 if __name__ == '__main__':
